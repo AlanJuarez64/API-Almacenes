@@ -23,8 +23,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('usuarios', UsuarioController::class);
-Route::apiResource('almacenes', AlmacenController::class);
-Route::apiResource('camiones', CamionController::class);
+Route::prefix('almacenes')->group(function (){
+    Route::post('/registro', [AlmacenController::class, 'RegistrarAlmacen'])->middleware('cors'); 
+    Route::get('/ver-todos', [AlmacenController::class, 'VerTodosLosAlmacenes'])->middleware('cors');
+    Route::post('/buscar', [AlmacenController::class, 'BuscarAlmacen'])->middleware('cors');
+});
+
+/*Route::apiResource('camiones', CamionController::class);
 Route::apiResource('lotes', LoteController::class);
-Route::apiResource('productos', ProductoController::class);
+Route::apiResource('productos', ProductoController::class);*/

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,4 +11,8 @@ class Almacen extends Model
     protected $table = 'almacenes';
     protected $primaryKey = 'ID_Almacen';
     public $timestamps = true;
+    protected $fillable = [
+        'Capacidad', // Agrega aquí todos los campos que deseas permitir asignación en masa
+    ];
 }
+
