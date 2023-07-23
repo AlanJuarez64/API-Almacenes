@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +17,9 @@ class Lote extends Model
         return $this->hasMany(Producto::class, 'ID_Lote', 'ID_Lote');
     }
 
-    public function camion()
-    {
-        return $this->belongsTo(Camion::class, 'Num_Serie', 'Num_Serie');
-    }
+    protected $fillable = [
+        'Nombre', 
+        'Descripcion', 
+        'Fecha_Hora_Estimada', 
+        'Num_Serie'];
 }
