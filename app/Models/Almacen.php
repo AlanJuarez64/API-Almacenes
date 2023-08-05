@@ -12,7 +12,7 @@ class Almacen extends Model
     protected $primaryKey = 'ID_Almacen';
     public $timestamps = true;
     protected $fillable = [
-        'Capacidad', // Agrega aquí todos los campos que deseas permitir asignación en masa
+        'Capacidad',
     ];
 }
 

@@ -29,6 +29,7 @@ Route::prefix('almacenes')->group(function (){
     Route::post('/borrar', [AlmacenController::class, 'EliminarAlmacen'])->middleware('cors');
 });
 
+
 Route::prefix('productos')->group(function (){
     Route::post('/editar', [ProductoController::class, 'ModificarDatosDeProducto'])->middleware('cors');
     Route::post('/registro', [ProductoController::class, 'RegistrarProducto'])->middleware('cors'); 
