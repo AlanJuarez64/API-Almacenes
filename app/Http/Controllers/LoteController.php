@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class LoteController extends Controller
 {
-    public function RegistrarLote(Request $request)
+    public function Registrar(Request $request)
     {
         $request->validate([
             'Nombre' => 'required|string|max:50',
@@ -21,7 +21,7 @@ class LoteController extends Controller
         return response()->json(['message' => 'Lote registrado con éxito.', 'lote' => $lote], 201);
     }
 
-    public function BuscarLote(Request $request)
+    public function Buscar(Request $request)
     {
         $id = $request->input('id');
         $lote = Lote::find($id);
@@ -33,7 +33,7 @@ class LoteController extends Controller
         return response()->json(['lote' => $lote], 200);
     }
 
-    public function BuscarAlmacenLote(Request $request)
+    public function BuscarAlmacen(Request $request)
     {
         $id = $request->input('id');
         $almacen = DB::table('almacenes')
@@ -49,7 +49,7 @@ class LoteController extends Controller
         return response()->json(['almacen' => $almacen], 200);
     }
 
-    public function EliminarLote(Request $request)
+    public function Eliminar(Request $request)
     {
         $id = $request->input('id');
         $lote = Lote::find($id);
@@ -63,7 +63,7 @@ class LoteController extends Controller
         return response()->json(['message' => 'Lote eliminado con éxito'], 200);
     }
 
-    public function VerTodosLosLotes()
+    public function VerTodo()
     {
         $lotes = Lote::all();
 
@@ -71,7 +71,7 @@ class LoteController extends Controller
     }
 
 
-    public function modificarLote(Request $request, $id)
+    public function ModificarDatos(Request $request, $id)
     {
         $request->validate([
             'Nombre' => 'required|string|max:50',

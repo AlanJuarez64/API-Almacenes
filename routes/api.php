@@ -22,28 +22,29 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('almacenes')->group(function (){
-    Route::put('/{id}', [AlmacenController::class, 'ModificarDatosDeAlmacen'])->middleware('cors'); 
-    Route::post('/', [AlmacenController::class, 'RegistrarAlmacen'])->middleware('cors'); 
-    Route::get('/', [AlmacenController::class, 'VerTodosLosAlmacenes'])->middleware('cors');
-    Route::get('/{id]', [AlmacenController::class, 'BuscarAlmacen'])->middleware('cors');
-    Route::delete('/{id}', [AlmacenController::class, 'EliminarAlmacen'])->middleware('cors');
+    Route::put('/{id}', [AlmacenController::class, 'ModificarDatos'])->middleware('cors'); 
+    Route::post('/', [AlmacenController::class, 'Registrar'])->middleware('cors'); 
+    Route::get('/', [AlmacenController::class, 'VerTodo'])->middleware('cors');
+    Route::get('/{id]', [AlmacenController::class, 'Buscar'])->middleware('cors');
+    Route::delete('/{id}', [AlmacenController::class, 'Eliminar'])->middleware('cors');
 });
 
 
 Route::prefix('productos')->group(function (){
-    Route::put('/{id}', [ProductoController::class, 'ModificarDatosDeProducto'])->middleware('cors');
-    Route::post('/', [ProductoController::class, 'RegistrarProducto'])->middleware('cors'); 
-    Route::get('/', [ProductoController::class, 'VerTodosLosProductos'])->middleware('cors');
-    Route::get('/{id}', [ProductoController::class, 'BuscarProducto'])->middleware('cors');
-    Route::delete('/{id}', [ProductoController::class, 'EliminaProducto'])->middleware('cors');
-    Route::get('/lote/{id]', [ProductoController::class, 'BuscarLoteDeProducto'])->middleware('cors');
+    Route::put('/{id}', [ProductoController::class, 'ModificarDatos'])->middleware('cors');
+    Route::post('/', [ProductoController::class, 'Registrar'])->middleware('cors'); 
+    Route::get('/', [ProductoController::class, 'VerTodo'])->middleware('cors');
+    Route::get('/{id}', [ProductoController::class, 'Buscar'])->middleware('cors');
+    Route::delete('/{id}', [ProductoController::class, 'Eliminar'])->middleware('cors');
+    Route::get('/lote/{id]', [ProductoController::class, 'BuscarLote'])->middleware('cors');
 });
 
 Route::prefix('lotes')->group(function (){
-    Route::put('/{id}', [LoteController::class, 'ModificarDatosDeLote'])->middleware('cors');
-    Route::post('/', [LoteController::class, 'RegistrarLote'])->middleware('cors'); 
-    Route::get('/', [LoteController::class, 'VerTodosLosLotes'])->middleware('cors');
-    Route::get('/{id}', [LoteController::class, 'BuscarLote'])->middleware('cors');
-    Route::delete('/{id}', [LoteController::class, 'EliminLote'])->middleware('cors');
+    Route::put('/{id}', [LoteController::class, 'ModificarDatos'])->middleware('cors');
+    Route::post('/', [LoteController::class, 'Registrar'])->middleware('cors'); 
+    Route::get('/', [LoteController::class, 'VerTodo'])->middleware('cors');
+    Route::get('/{id}', [LoteController::class, 'Buscar'])->middleware('cors');
+    Route::get('/almacen/{id}', [LoteController::class, 'BuscarAlmacen'])->middleware('cors'); 
+    Route::delete('/{id}', [LoteController::class, 'Eliminar'])->middleware('cors');
 });
 

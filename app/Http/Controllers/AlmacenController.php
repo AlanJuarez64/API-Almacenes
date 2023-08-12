@@ -8,13 +8,13 @@ use App\Models\Almacen;
 class AlmacenController extends Controller
 {
 
-    public function VerTodosLosAlmacenes()
+    public function VerTodos()
     {
         return Almacen::all();
     }
 
 
-    public function buscarAlmacen(Request $request)
+    public function Buscar(Request $request)
     {
 
         $id = $request->input('id');
@@ -29,7 +29,7 @@ class AlmacenController extends Controller
     }
 
     
-    public function RegistrarAlmacen(Request $request){
+    public function Registrar(Request $request){
         $request->validate([
             'Capacidad' => 'required|integer|min:10'
         ]);
@@ -40,7 +40,7 @@ class AlmacenController extends Controller
         return response()->json(['message' => 'Almacén registrado con éxito.', 'almacen' => $almacen], 201);
     }
 
-    public function EliminarAlmacen(Request $request)
+    public function Eliminar(Request $request)
     {
         $id = $request->input('id');
         $almacen = Almacen::find($id);
@@ -53,7 +53,7 @@ class AlmacenController extends Controller
         }
     }
 
-    public function ModificarDatosDeAlmacen(Request $request)
+    public function ModificarDatos(Request $request)
     {
         $id = $request->input('id');
         $request->validate([

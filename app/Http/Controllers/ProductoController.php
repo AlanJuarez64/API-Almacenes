@@ -7,7 +7,7 @@ use App\Models\Producto;
 
 class ProductoController extends Controller
 {
-    public function RegistrarProducto(Request $request)
+    public function Registrar(Request $request)
     {
         $request->validate([
             'Peso' => 'required|numeric|min:0',
@@ -20,7 +20,7 @@ class ProductoController extends Controller
         return response()->json(['message' => 'Producto registrado con éxito.', 'producto' => $producto], 201);
     }
 
-    public function BuscarProducto(Request $request)
+    public function Buscar(Request $request)
     {
         $id = $request->input('id');
         $producto = Producto::find($id);
@@ -32,7 +32,7 @@ class ProductoController extends Controller
         return response()->json(['producto' => $producto], 200);
     }
 
-    public function BuscarLoteDeUnProducto(Request $request)
+    public function BuscarLote(Request $request)
     {
         $id = $request->input('id');
         $lote = DB::table('lotes')
@@ -48,7 +48,7 @@ class ProductoController extends Controller
         return response()->json(['lote' => $lote], 200);
     }
 
-    public function EliminarProducto(Request $request)
+    public function Eliminar(Request $request)
     {
         $id = $request->input('id');
         $producto = Producto::find($id);
@@ -62,14 +62,14 @@ class ProductoController extends Controller
         return response()->json(['message' => 'Producto eliminado con éxito'], 200);
     }
 
-    public function VerTodosLosProductos()
+    public function VerTodo()
     {
         $productos = Producto::all();
 
         return response()->json(['productos' => $productos], 200);
     }
 
-       public function modificarProducto(Request $request)
+       public function ModificarDatos(Request $request)
     {
          
         $request->validate([
