@@ -21,21 +21,15 @@ class LoteController extends Controller
         return response()->json(['message' => 'Lote registrado con éxito.', 'lote' => $lote], 201);
     }
 
-    public function Buscar(Request $request)
+    public function Buscar($id)
     {
-        $id = $request->input('id');
-        $lote = Lote::find($id);
-
-        if (!$lote) {
-            return response()->json(['error' => 'Lote no encontrado'], 404);
-        }
+        $lote = Lote::findOrFail($id);
 
         return response()->json(['lote' => $lote], 200);
     }
 
-    public function BuscarAlmacen(Request $request)
+    public function BuscarAlmacen($id)
     {
-        $id = $request->input('id');
         $almacen = DB::table('almacenes')
             ->join('productos', 'almacenes.ID_Almacen', '=', 'productos.ID_Lote')
             ->where('productos.ID_Producto', $id)
@@ -49,15 +43,9 @@ class LoteController extends Controller
         return response()->json(['almacen' => $almacen], 200);
     }
 
-    public function Eliminar(Request $request)
+    public function Eliminar($id)
     {
-        $id = $request->input('id');
-        $lote = Lote::find($id);
-
-        if (!$lote) {
-            return response()->json(['error' => 'Lote no encontrado'], 404);
-        }
-
+        $lote = Lote::findOrFail($id);
         $lote->delete();
 
         return response()->json(['message' => 'Lote eliminado con éxito'], 200);
@@ -80,12 +68,7 @@ class LoteController extends Controller
             'Num_Serie' => 'required|integer',
         ]);
 
-        $lote = Lote::find($id);
-
-        if (!$lote) {
-            return response()->json(['error' => 'Lote no encontrado'], 404);
-        }
-
+        $lote = Lote::findOrFail($id);
         $lote->update($request->all());
 
         return response()->json(['message' => 'Lote modificado con éxito.', 'lote' => $lote], 200);

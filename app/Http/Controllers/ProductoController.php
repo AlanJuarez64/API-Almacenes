@@ -20,19 +20,14 @@ class ProductoController extends Controller
         return response()->json(['message' => 'Producto registrado con éxito.', 'producto' => $producto], 201);
     }
 
-    public function Buscar(Request $request)
+    public function Buscar($id)
     {
-        $id = $request->input('id');
-        $producto = Producto::find($id);
-
-        if (!$producto) {
-            return response()->json(['error' => 'Producto no encontrado'], 404);
-        }
+        $producto = Producto::findOrFail($id);
 
         return response()->json(['producto' => $producto], 200);
     }
 
-    public function BuscarLote(Request $request)
+    public function BuscarLote($id)
     {
         $id = $request->input('id');
         $lote = DB::table('lotes')
@@ -48,15 +43,9 @@ class ProductoController extends Controller
         return response()->json(['lote' => $lote], 200);
     }
 
-    public function Eliminar(Request $request)
+    public function Eliminar($id)
     {
-        $id = $request->input('id');
-        $producto = Producto::find($id);
-
-        if (!$producto) {
-            return response()->json(['error' => 'Producto no encontrado'], 404);
-        }
-
+        $producto = Producto::findOrFail($id);
         $producto->delete();
 
         return response()->json(['message' => 'Producto eliminado con éxito'], 200);
@@ -69,7 +58,7 @@ class ProductoController extends Controller
         return response()->json(['productos' => $productos], 200);
     }
 
-       public function ModificarDatos(Request $request)
+       public function ModificarDatos(Request $request, $id)
     {
          
         $request->validate([
@@ -78,13 +67,7 @@ class ProductoController extends Controller
             'ID_Lote' => 'required|integer',
         ]);
 
-        $id = $request->input('ID_producto');
-        $producto = Producto::find($id);
-
-        if (!$producto) {
-            return response()->json(['error' => 'Producto no encontrado'], 404);
-        }
-
+        $producto = Producto::findOrFail($id);
         $producto->update($request->all());
 
         return response()->json(['message' => 'Producto modificado con éxito.', 'producto' => $producto], 200);
