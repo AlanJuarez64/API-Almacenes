@@ -29,17 +29,8 @@ class ProductoController extends Controller
 
     public function BuscarLote($id)
     {
-        $id = $request->input('id');
-        $lote = DB::table('lotes')
-            ->join('productos', 'lotes.ID_Lote', '=', 'productos.ID_Lote')
-            ->where('productos.ID_Producto', $id)
-            ->select('lotes.*')
-            ->first();
-
-        if (!$lote) {
-            return response()->json(['error' => 'Lote no encontrado para el producto dado'], 404);
-        }
-
+        $producto = Producto::findOrFail($id);
+        $lote = $producto->lote;
         return response()->json(['lote' => $lote], 200);
     }
 
