@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Articulo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ArticuloController extends Controller
@@ -15,8 +17,12 @@ class ArticuloController extends Controller
 
 
     public function Buscar($id){
-        $articulo = Articulo::findOrFail($id);
-        return response()->json($articulo);
+        try{
+            $articulo = Articulo::findOrFail($id);
+            return response()->json($articulo);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Artículo no encontrado'], 404);
+        }
     }
 
     public function Eliminar($id)
@@ -35,11 +41,15 @@ class ArticuloController extends Controller
 
     public function Registrar(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'ID_Usuario' => 'required|exists:Clientes,ID_Usuario',
-            'ID_Producto' => 'required|exists:Productos,ID_Producto',
+            'ID_Producto' => 'required|exists:Producto,ID_Producto',
             'Estado' => ['required', Rule::in(['En espera', 'En el almacen', 'En camino', 'Entregado'])],
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        } 
 
         $articulo = new Articulo([
             'ID_Usuario' => $request->input('ID_Usuario'),
