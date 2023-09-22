@@ -8,15 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
-    protected $table = 'productos';
+    protected $table = 'Producto';
     protected $primaryKey = 'ID_Producto';
     public $timestamps = true;
 
+    protected $fillable = ['Peso', 'Cantidad', 'ID_Lote'];
 
     public function lote()
     {
-        return $this->belongsTo(Lote::class, 'ID_Lote', 'ID_Lote');
+        return $this->hasOne(Contiene::class, 'ID_Lote', 'ID_Producto');
     }
-
-    protected $fillable = ['Peso', 'Cantidad', 'ID_Lote'];
 }

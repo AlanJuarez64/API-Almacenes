@@ -8,18 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Lote extends Model
 {
     use HasFactory;
-    protected $table = 'lotes';
+    protected $table = 'Lote';
     protected $primaryKey = 'ID_Lote';
     public $timestamps = true;
-
-    public function productos()
-    {
-        return $this->hasMany(Producto::class, 'ID_Lote', 'ID_Lote');
-    }
 
     protected $fillable = [
         'Nombre', 
         'Descripcion', 
         'Fecha_Hora_Estimada', 
         'Num_Serie'];
+
+        public function producto()
+    {
+        return $this->hasMany(Contiene::class, 'ID_Lote');
+    }
 }
