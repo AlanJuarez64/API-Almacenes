@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Almacen extends Model
 {
     use HasFactory;
-    protected $table = 'almacenes';
-    protected $primaryKey = 'ID_Almacen';
-    public $timestamps = true;
-    protected $fillable = [
-        'Capacidad',
-    ];
+        protected $table = 'almacenes';
+        protected $primaryKey = 'ID_Almacen';
+        public $timestamps = true;
+        protected $fillable = [
+            'Capacidad',
+        ];
 }
 

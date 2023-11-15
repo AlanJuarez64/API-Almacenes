@@ -42,8 +42,8 @@ class ArticuloController extends Controller
     public function Registrar(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'ID_Usuario' => 'required|exists:Clientes,ID_Usuario',
-            'ID_Producto' => 'required|exists:Producto,ID_Producto',
+            'id' => 'required|exists:Clientes,id',
+            'ID_Producto' => 'required|exists:Productos,ID_Producto',
             'Estado' => ['required', Rule::in(['En espera', 'En el almacen', 'En camino', 'Entregado'])],
         ]);
 
@@ -52,11 +52,11 @@ class ArticuloController extends Controller
         } 
 
         $articulo = new Articulo([
-            'ID_Usuario' => $request->input('ID_Usuario'),
+            'id' => $request->input('id'),
             'ID_Producto' => $request->input('ID_Producto'),
             'Estado' => $request->input('Estado'),
         ]);
-        $articulo->ID_Usuario = $request->input('ID_Usuario');
+        $articulo->id = $request->input('id');  
         $articulo->Estado = $request->input('Estado');
 
         $articulo->save();
@@ -67,7 +67,7 @@ class ArticuloController extends Controller
     public function CambiarEstado(Request $request, $id){
         try {
             $request->validate([
-                'estado' => ['required', Rule::in(['En espera', 'En el almacen', 'En camino', 'Entregado'])], 
+                'Estado' => ['required', Rule::in(['En espera', 'En el almacen', 'En camino', 'Entregado'])], 
             ]);
             
             $articulo = Articulo::findOrFail($id);
