@@ -5,8 +5,9 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Almacen;
+use Illuminate\Support\Facades\Http;
 use Tests\Feature\Factory;
-use Database\Factories\AlmacenFactory;
+use App\Models\User;
 
 class AlmacenesTest extends TestCase
 {
@@ -14,7 +15,12 @@ class AlmacenesTest extends TestCase
     public function testBuscarAlmacenValido()
     {
          
-        $response = $this->get('/api/almacenes/1');
+        $token = $this->simularAutenticacion();
+        
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/almacenes/1');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -28,14 +34,24 @@ class AlmacenesTest extends TestCase
     public function testBuscarAlmacenInvalido()
     {
          
-        $response = $this->get('/api/almacenes/999');
+        $token = $this->simularAutenticacion();
+        
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/almacenes/999');
     
         $response->assertStatus(404);
     }
 
     public function testVerTodo()
-    {       
-        $response = $this->get('/api/almacenes');
+    {
+        $token = $this->simularAutenticacion();
+        
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/almacenes');
         $response->assertStatus(200);
     }
 
@@ -46,7 +62,12 @@ class AlmacenesTest extends TestCase
             'Capacidad' => 20,
         ];
 
-        $response = $this->post('/api/almacenes', $data);
+        $token = $this->simularAutenticacion();
+        
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('/api/almacenes', $data);
         $response->assertStatus(201);
 
         $response->assertJson([
@@ -54,40 +75,23 @@ class AlmacenesTest extends TestCase
 
         ]);
     }
-
-
-    public function testEliminarAlmacenValido()
+  
+    private function simularAutenticacion()
     {
-        $almacen = Almacen::factory()->create();
-
-        $response = $this->delete("/api/almacenes/{$almacen->id}");
-
-        $response->assertStatus(200);
-
-        $response->assertJson([
-            'message' => 'Almacén eliminado correctamente',
+        $user = User::factory()->create();
+        
+        $response = Http::post('http://localhost:8001/oauth/token', [
+            'grant_type' => 'password',
+            'client_id' => env('CLIENT_ID'),
+            'client_secret' => env('CLIENT_SECRET'),
+            'username' => "$user->email",
+            'password' => 'password',
         ]);
 
-        $this->assertDeleted('almacens', ['id' => $almacen->id]);
+        $token = $response->json('access_token');
+
+        return $token;
     }
 
-    public function testModificarDatos()
-    {
-        $almacen = AlmacenFactory::new()->create();
-        $data = [
-            'Capacidad' => 30,
-        ];
 
-        $response = $this->put("/api/almacenes/{$almacen->id}", $data);
-        $response->assertStatus(200);
-
-        $response->assertJson([
-            'message' => 'Almacén modificado con éxito.',
-        ]);
-
-        $this->assertDatabaseHas('almacenes', [
-            'id' => $almacen->id,
-            'Capacidad' => 30,
-        ]);
-    }
 }

@@ -12,8 +12,9 @@ class Articulo extends Model
 
     protected $primaryKey = 'ID_Articulo';
     protected $fillable = [
+        'id',
         'ID_Producto',
-        'estado',
+        'Estado',
     ];
 
     public function producto()
